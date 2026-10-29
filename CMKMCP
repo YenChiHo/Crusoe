@@ -1,3 +1,4 @@
+```typescript
 // demo.ts  (npm i @modelcontextprotocol/sdk, run with npx tsx demo.ts)
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
@@ -20,3 +21,4 @@ const pools = await call("list_kubernetes_node_pools");
 console.log("Node pools:\n", pools.content[0].text);
 
 await client.close();
+```
