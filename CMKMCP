@@ -1,0 +1,22 @@
+// demo.ts  (npm i @modelcontextprotocol/sdk, run with npx tsx demo.ts)
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+
+const client = new Client({ name: "crusoe-demo", version: "1.0.0" });
+await client.connect(new StdioClientTransport({
+  command: "npx",
+  args: ["-y", "@crusoeai/cloud-mcp"],
+}));
+
+const call = async (name: string, args = {}) =>
+  (await client.callTool({ name, arguments: args })) as any;
+
+// 1. Crusoe Managed Kubernetes clusters
+const clusters = await call("list_kubernetes_clusters");
+console.log("CMK clusters:\n", clusters.content[0].text);
+
+// 2. Node pools, where Managed Slurm worker pools show up
+const pools = await call("list_kubernetes_node_pools");
+console.log("Node pools:\n", pools.content[0].text);
+
+await client.close();
